@@ -17,8 +17,8 @@ class star:
         self.y = uniform(-0.5,0.5)
         self.z = uniform(0.2,1.0)
 
-    def update(self):
-        self.z -= 0.0025
+    def update(self, speed):
+        self.z -= speed/50
 
         sx = self.x / self.z
         sy = self.y / self.z
@@ -54,9 +54,10 @@ while not done:
 
     screen.fill((0, 0, 0))
     stars.sort(key=lambda x: -x.z)
+    mouse_x, mouse_y = pygame.mouse.get_pos()
 
     for s in stars:
-        s.update()
+        s.update(1-mouse_y/screen.get_height())
         s.show(screen)
 
     pygame.display.flip()
