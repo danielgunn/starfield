@@ -3,8 +3,7 @@ import random
 import numpy
 
 
-width = 1024
-height = 1024
+(width, height) = (1024, 1024)
 
 
 class star:
@@ -14,9 +13,9 @@ class star:
         self.reset()
 
     def reset(self):
-        self.x = random.randint(-width, width)
-        self.y = random.randint(-height, height)
-        self.z = random.randint(int(0.5*width), width)
+        self.x = random.randint(-width//2, width//2)
+        self.y = random.randint(-height//2, height//2)
+        self.z = random.randint(1, width)
 
     def update(self):
         self.z -= 4
@@ -37,6 +36,7 @@ class star:
 
 pygame.init()
 screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Star Field")
 
 done = False
 
