@@ -16,10 +16,10 @@ class star:
     def reset(self):
         self.x = random.randint(-width, width)
         self.y = random.randint(-height, height)
-        self.z = random.randint(50, width)
+        self.z = random.randint(int(0.5*width), width)
 
     def update(self):
-        self.z -= 2
+        self.z -= 4
 
         if self.z < 10:
             self.reset()
@@ -27,7 +27,6 @@ class star:
     def show(self, screen):
         sx = int(numpy.interp(self.x / self.z, [-1, 1], [-width, width]))
         sy = int(numpy.interp(self.y / self.z, [-1, 1], [-height, height]))
-
         r = int(numpy.interp(self.z, [0, width], [20, 0]))
 
         bright = numpy.interp(self.z,[0,width], [1.0,0.0])

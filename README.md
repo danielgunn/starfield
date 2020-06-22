@@ -1,2 +1,2 @@
 # starfield
-Coding inspired python implementation of Star field
+Coding Train inspired python implementation of Star field
