@@ -3,8 +3,8 @@ import random
 import numpy
 
 
-width = 800
-height = 800
+width = 1024
+height = 1024
 
 
 class star:
@@ -14,26 +14,27 @@ class star:
         self.reset()
 
     def reset(self):
-        self.x = random.randint(0, width)
-        self.y = random.randint(0, height)
+        self.x = random.randint(-width, width)
+        self.y = random.randint(-height, height)
         self.z = random.randint(50, width)
 
     def update(self):
-        self.z -= 1
+        self.z -= 2
 
         if self.z < 10:
             self.reset()
 
     def show(self, screen):
-        sx = int(numpy.interp(self.x / self.z, [0, 1], [0, width]))
-        sy = int(numpy.interp(self.y / self.z, [0, 1], [0, width]))
+        sx = int(numpy.interp(self.x / self.z, [-1, 1], [-width, width]))
+        sy = int(numpy.interp(self.y / self.z, [-1, 1], [-height, height]))
 
-        r = int(numpy.interp(self.z, [0, width], [10, 0]))
+        r = int(numpy.interp(self.z, [0, width], [20, 0]))
 
         bright = numpy.interp(self.z,[0,width], [1.0,0.0])
-        color = tuple(map(lambda x: int(x * bright), (255,255,10)))
+        color = tuple(map(lambda x: int(x * bright), (255,255,55)))
 
-        pygame.draw.ellipse(screen,color,pygame.Rect(sx, sy, r,r))
+        pygame.draw.ellipse(screen,color,pygame.Rect(int(sx+width/2), int(sy+height/2), r,r))
+
 
 pygame.init()
 screen = pygame.display.set_mode((width, height))
@@ -41,7 +42,7 @@ screen = pygame.display.set_mode((width, height))
 done = False
 
 stars = []
-for i in range(100):
+for i in range(200):
     stars.append(star())
 
 while not done:
@@ -55,5 +56,4 @@ while not done:
         s.show(screen)
 
     pygame.display.flip()
-    #pygame.transform.scale(screen, (int(width / 2), int(height / 2)))
 
