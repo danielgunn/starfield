@@ -16,7 +16,8 @@ class star:
         self.x = uniform(-0.5,0.5)
         self.y = uniform(-0.5,0.5)
         self.z = uniform(0.9,1.0)
-        self.c = (randint(0,255), randint(0,255), randint(0,255))
+        self.color = (randint(0,255), randint(0,255), randint(0,255))
+        self.max_size = randint(10,50)
 
     def update(self, speed):
         self.z -= speed/50
@@ -30,12 +31,12 @@ class star:
     def show(self, screen):
         screen_x = int(numpy.interp(self.sx, [-1,1], [0, screen.get_width()]))
         screen_y = int(numpy.interp(self.sy, [-1,1], [0, screen.get_height()]))
-        radius = int(numpy.interp(self.z, [0.0001, 1.0], [20, 0]))
+        radius = int(numpy.interp(self.z, [0.0001, 1.0], [self.max_size, 0]))
 
         bright = numpy.interp(self.z,[0,1], [1.0,0.0])
-        color = tuple(map(lambda x: int(x * bright), self.c))
+        screen_color = tuple(map(lambda x: int(x * bright), self.color))
 
-        pygame.draw.ellipse(screen,color,pygame.Rect(screen_x, screen_y, radius,radius))
+        pygame.draw.ellipse(screen,screen_color,pygame.Rect(screen_x, screen_y, radius,radius))
 
 
 pygame.init()
