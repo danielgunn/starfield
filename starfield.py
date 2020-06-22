@@ -1,5 +1,5 @@
 import pygame
-import random
+from random import uniform
 import numpy
 
 
@@ -7,31 +7,34 @@ import numpy
 
 
 class star:
-    x,y,z = 0,0,0
+    (x,y,z) = (0.0,0.0,0.0)
 
     def __init__(self):
         self.reset()
 
     def reset(self):
-        self.x = random.randint(-width//2, width//2)
-        self.y = random.randint(-height//2, height//2)
-        self.z = random.randint(1, width)
+        self.x = uniform(-0.5,0.5)
+        self.y = uniform(-0.5,0.5)
+        self.z = uniform(0.2,1.0)
 
     def update(self):
-        self.z -= 4
+        self.z -= 0.0025
 
-        if self.z < 10:
+        sx = self.x / self.z
+        sy = self.y / self.z
+
+        if sx ==0 or sy == 0 or abs(sx) > 1 or abs(sy) > 1 :
             self.reset()
 
     def show(self, screen):
-        sx = int(numpy.interp(self.x / self.z, [-1, 1], [-width, width]))
-        sy = int(numpy.interp(self.y / self.z, [-1, 1], [-height, height]))
-        r = int(numpy.interp(self.z, [0, width], [20, 0]))
+        screen_x = numpy.interp(self.x / self.z, [-1,1], [0, screen.get_width()])
+        screen_y = numpy.interp(self.y / self.z, [-1,1], [0, screen.get_height()])
+        radius = int(numpy.interp(self.z, [0.0001, 1.0], [20, 0]))
 
-        bright = numpy.interp(self.z,[0,width], [1.0,0.0])
+        bright = numpy.interp(self.z,[0,1], [1.0,0.0])
         color = tuple(map(lambda x: int(x * bright), (255,255,55)))
 
-        pygame.draw.ellipse(screen,color,pygame.Rect(int(sx+width/2), int(sy+height/2), r,r))
+        pygame.draw.ellipse(screen,color,pygame.Rect(int(screen_x), int(screen_y), radius,radius))
 
 
 pygame.init()
@@ -50,6 +53,8 @@ while not done:
             done = True
 
     screen.fill((0, 0, 0))
+    stars.sort(key=lambda x: -x.z)
+
     for s in stars:
         s.update()
         s.show(screen)
