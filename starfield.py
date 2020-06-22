@@ -23,7 +23,7 @@ class star:
         sx = self.x / self.z
         sy = self.y / self.z
 
-        if sx ==0 or sy == 0 or abs(sx) > 1 or abs(sy) > 1 :
+        if sx ==0 or sy == 0 or abs(sx) > 1 or abs(sy) > 1 or self.z < 0.01:
             self.reset()
 
     def show(self, screen):
